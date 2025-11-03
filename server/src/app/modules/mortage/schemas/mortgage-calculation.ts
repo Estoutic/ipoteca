@@ -36,9 +36,12 @@ export const mortgageCalculations = mysqlTable('MortgageCalculation', {
     scale: 2
   }).notNull(),
   paymentSchedule: text('paymentSchedule').notNull(),
+  //TODO json???
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updatedAt').defaultNow().onUpdateNow().notNull()
 });
 
 export type MortgageCalculation = InferSelectModel<typeof mortgageCalculations>;
-export type NewMortgageCalculation = InferInsertModel<typeof mortgageCalculations>;
+export type NewMortgageCalculation = InferInsertModel<
+  typeof mortgageCalculations
+>;

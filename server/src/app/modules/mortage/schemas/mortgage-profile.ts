@@ -17,7 +17,7 @@ export const mortgageProfiles = mysqlTable('MortgageProfile', {
     scale: 2
   }).notNull(),
   propertyType: varchar('propertyType', { length: 100 }).notNull(),
-  //TODO можно сделать реализацию через enum?
+  //TODO можно сделать реализацию через enum для строгйо типизации?
   downPaymentAmount: decimal('downPaymentAmount', {
     precision: 15,
     scale: 2
@@ -33,5 +33,5 @@ export const mortgageProfiles = mysqlTable('MortgageProfile', {
   updatedAt: timestamp('updatedAt').defaultNow().onUpdateNow().notNull()
 });
 
-export type MortagePorfile = InferSelectModel<typeof mortgageProfiles>;
+export type MortgagePorfile = InferSelectModel<typeof mortgageProfiles>;
 export type NewMortagePorfile = InferInsertModel<typeof mortgageProfiles>;
