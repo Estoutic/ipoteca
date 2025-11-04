@@ -17,7 +17,7 @@ export const mortgageProfiles = mysqlTable('MortgageProfile', {
     scale: 2
   }).notNull(),
   propertyType: varchar('propertyType', { length: 100 }).notNull(),
-  //TODO можно сделать реализацию через enum для строгйо типизации?
+  //TODO уточнить можно сделать реализацию через enum для строгйо типизации?
   downPaymentAmount: decimal('downPaymentAmount', {
     precision: 15,
     scale: 2

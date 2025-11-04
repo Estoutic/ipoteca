@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AccountModule } from './modules/account/account.module';
 import { AccountTokenModule } from './modules/account-token/account-token.module';
 import { RefreshTokenModule } from './modules/refresh-token/refresh-token.module';
+import { MortgageModule } from './modules/mortage/mortgage.module';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
@@ -27,10 +28,11 @@ import { DatabaseModule } from '../database/database.module';
       }),
     }),
     ScheduleModule.forRoot(),
-    TelegramBotModule,
+    // TelegramBotModule, // Временно отключен из-за ошибки Telegram токена
     AccountModule,
     AccountTokenModule,
     RefreshTokenModule,
+    MortgageModule,
     AuthModule,
     UsersModule,
   ],
