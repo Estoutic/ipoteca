@@ -13,7 +13,7 @@ export class MortgageController {
     @Body() dto: CreateMortgageProfileDto,
     @Request() req: any
   ): Promise<MortgageCalculationResponse> {
-    const userId = req.user?.tgId || 'user-id-' + Date.now();
+    const userId = req.user?.tgId || crypto.randomUUID();
 
     return this.mortgageService.create(dto, userId);
   }

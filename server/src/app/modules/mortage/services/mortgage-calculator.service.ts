@@ -7,7 +7,7 @@ import { MortgageCalculationResponse } from '../interfaces/mortgage-calculation-
 import { CreateMortgageProfileDto } from '../dto/create-mortgage-profile.dto';
 
 @Injectable()
-export class MortgageCalculatorHelper {
+export class MortgageCalculatorService {
   calculate(dto: CreateMortgageProfileDto): MortgageCalculationResponse {
     const matCapital =
       dto.matCapitalIncluded && dto.matCapitalAmount ? dto.matCapitalAmount : 0;

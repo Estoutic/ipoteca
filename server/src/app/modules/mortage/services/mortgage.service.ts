@@ -1,7 +1,7 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Database } from 'src/database/schema';
 import { CreateMortgageProfileDto } from '../dto/create-mortgage-profile.dto';
-import { MortgageCalculatorHelper } from './mortgage-calculator.service';
+import { MortgageCalculatorService } from './mortgage-calculator.service';
 import { MortgageCalculationResponse } from '../interfaces/mortgage-calculation-response.interface';
 import { mortgageProfiles } from '../schemas/mortgage-profile';
 import { mortgageCalculations } from '../schemas/mortgage-calculation';
@@ -10,7 +10,7 @@ import { mortgageCalculations } from '../schemas/mortgage-calculation';
 export class MortgageService {
   constructor(
     @Inject('DATABASE') private readonly db: Database,
-    private readonly calculator: MortgageCalculatorHelper
+    private readonly calculator: MortgageCalculatorService
   ) {}
 
   async create(
