@@ -28,7 +28,7 @@ import { DatabaseModule } from '../database/database.module';
       }),
     }),
     ScheduleModule.forRoot(),
-    // TelegramBotModule, // Временно отключен из-за ошибки Telegram токена
+    // TelegramBotModule, пока без тг
     AccountModule,
     AccountTokenModule,
     RefreshTokenModule,
