@@ -33,5 +33,5 @@ export const mortgageProfiles = mysqlTable('MortgageProfile', {
   updatedAt: timestamp('updatedAt').defaultNow().onUpdateNow().notNull()
 });
 
-export type MortgagePorfile = InferSelectModel<typeof mortgageProfiles>;
-export type NewMortagePorfile = InferInsertModel<typeof mortgageProfiles>;
+export type MortgageProfile = InferSelectModel<typeof mortgageProfiles>;
+export type NewMortageProfile = InferInsertModel<typeof mortgageProfiles>;
