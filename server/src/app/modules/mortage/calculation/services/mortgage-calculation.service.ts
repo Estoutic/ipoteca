@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Database } from 'src/database/schema';
 import { mortgageCalculations } from '../schemas/mortgage-calculation.schema';
 import { MortgageCalculationResponse } from '../interface/mortgage-calculation-response.interface';
@@ -127,6 +127,11 @@ export class MortgageCalculationService {
     let remainingBalance = loanAmount;
 
     const startDate = new Date(calculationDate);
+    if (startDate < new Date()) {
+      throw new BadRequestException(
+        'The date cannot be less than current year'
+      );
+    }
 
     for (let month = 1; month <= totalMonths; month++) {
       const monthlyInterest = remainingBalance * monthlyRate;
@@ -159,6 +164,7 @@ export class MortgageCalculationService {
   }
 
   private getMonthName(monthIndex: number): string {
+    // можно вынести в конструктор или утилиту
     const monthNames = [
       'January',
       'February',
