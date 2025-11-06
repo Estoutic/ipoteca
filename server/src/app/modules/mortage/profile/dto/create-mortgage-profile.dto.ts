@@ -5,7 +5,8 @@ import {
   IsOptional,
   Min,
   Max,
-  IsEnum
+  IsEnum,
+  IsDateString
 } from 'class-validator';
 import { PropertyType } from '../enum/property-type.enum';
 
@@ -44,4 +45,8 @@ export class CreateMortgageProfileDto {
   @Min(0)
   @Max(100)
   interestRate: number;
+
+  @IsNotEmpty()
+  @IsDateString()
+  calculationDate: string;
 }

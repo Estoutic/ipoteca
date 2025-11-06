@@ -3,7 +3,11 @@ import { Database } from 'src/database/schema';
 import { mortgageCalculations } from '../schemas/mortgage-calculation.schema';
 import { MortgageCalculationResponse } from '../interface/mortgage-calculation-response.interface';
 import { CreateMortgageProfileDto } from '../../profile/dto/create-mortgage-profile.dto';
-import { MortgagePayment, MortgagePaymentSchedule } from '../interface/mortgage-payment.interface';
+import {
+  MortgagePayment,
+  MortgagePaymentSchedule
+} from '../interface/mortgage-payment.interface';
+import { log } from 'console';
 
 @Injectable()
 export class MortgageCalculationService {
@@ -63,7 +67,8 @@ export class MortgageCalculationService {
       loanAmount,
       monthlyRate,
       monthlyPayment,
-      totalMonths
+      totalMonths,
+      dto.calculationDate
     );
 
     const savingsDueMotherCapital =
@@ -74,12 +79,12 @@ export class MortgageCalculationService {
     const recommendedIncome = monthlyPayment / 0.4;
 
     return {
-      monthlyPayment: Math.round(monthlyPayment * 100) / 100,
-      totalPayment: Math.round(totalPayment * 100) / 100,
-      totalOverpaymentAmount: Math.round(totalOverpaymentAmount * 100) / 100,
-      possibleTaxDeduction: Math.round(possibleTaxDeduction * 100) / 100,
-      savingsDueMotherCapital: Math.round(savingsDueMotherCapital * 100) / 100,
-      recommendedIncome: Math.round(recommendedIncome * 100) / 100,
+      monthlyPayment: Number(monthlyPayment.toFixed(2)),
+      totalPayment: Number(totalPayment.toFixed(2)),
+      totalOverpaymentAmount: Number(totalOverpaymentAmount.toFixed(2)),
+      possibleTaxDeduction: Number(possibleTaxDeduction.toFixed(2)),
+      savingsDueMotherCapital: Number(savingsDueMotherCapital.toFixed(2)),
+      recommendedIncome: Number(recommendedIncome.toFixed(2)),
       mortgagePaymentSchedule
     };
   }
@@ -115,10 +120,13 @@ export class MortgageCalculationService {
     loanAmount: number,
     monthlyRate: number,
     monthlyPayment: number,
-    totalMonths: number
+    totalMonths: number,
+    calculationDate: string
   ): MortgagePaymentSchedule {
     const schedule: MortgagePaymentSchedule = {};
     let remainingBalance = loanAmount;
+
+    const startDate = new Date(calculationDate);
 
     for (let month = 1; month <= totalMonths; month++) {
       const monthlyInterest = remainingBalance * monthlyRate;
@@ -128,26 +136,43 @@ export class MortgageCalculationService {
       remainingBalance = remainingBalance - principalPayment;
 
       const payment: MortgagePayment = {
-        totalPayment: Math.round(monthlyPayment * 100) / 100,
-        repaymentOfMortgageBody: Math.round(principalPayment * 100) / 100,
-        repaymentOfMortgageInterest: Math.round(monthlyInterest * 100) / 100,
-        mortgageBalance: Math.max(0, Math.round(remainingBalance * 100) / 100)
+        totalPayment: Number(monthlyPayment.toFixed(2)),
+        repaymentOfMortgageBody: Number(principalPayment.toFixed(2)),
+        repaymentOfMortgageInterest: Number(monthlyInterest.toFixed(2)),
+        mortgageBalance: Math.max(0, Number(remainingBalance.toFixed(2)))
       };
 
-      const yearNumber = Math.ceil(month / 12);
-      const monthNumber = ((month - 1) % 12) + 1;
+      const year = startDate.getFullYear().toString();
+      const monthName = this.getMonthName(startDate.getMonth());
 
-      const yearKey = `${yearNumber}`;
-      const monthKey = `${monthNumber}`;
+      startDate.setMonth(startDate.getMonth() + 1);
 
-      if (!schedule[yearKey]) {
-        schedule[yearKey] = {};
+      if (!schedule[year]) {
+        schedule[year] = {};
       }
 
-      schedule[yearKey][monthKey] = payment;
+      schedule[year][monthName] = payment;
     }
 
     return schedule;
+  }
+
+  private getMonthName(monthIndex: number): string {
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    return monthNames[monthIndex];
   }
 
   private calculateMatCapitalSavings(
