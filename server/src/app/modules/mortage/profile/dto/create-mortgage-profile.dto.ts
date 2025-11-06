@@ -7,7 +7,7 @@ import {
   Max,
   IsEnum
 } from 'class-validator';
-import { PropertyType } from '../enums/property-type.enum';
+import { PropertyType } from '../enum/property-type.enum';
 
 export class CreateMortgageProfileDto {
   @IsNotEmpty()

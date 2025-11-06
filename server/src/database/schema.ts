@@ -3,8 +3,8 @@ import { accountTokens } from '../app/modules/account-token/schemas/account-toke
 import { users } from '../app/modules/user/schemas/users';
 import { refreshTokens } from '../app/modules/refresh-token/schemas/refresh-tokens';
 import { MySql2Database } from 'drizzle-orm/mysql2';
-import { mortgageProfiles } from '../app/modules/mortage/schemas/mortgage-profile';
-import { mortgageCalculations } from '../app/modules/mortage/schemas/mortgage-calculation';
+import { mortgageProfiles } from '../app/modules/mortage/profile/schemas/mortgage-profile.schema';
+import { mortgageCalculations } from '../app/modules/mortage/calculation/schemas/mortgage-calculation.schema';
 
 export const databaseSchema = {
     accounts,

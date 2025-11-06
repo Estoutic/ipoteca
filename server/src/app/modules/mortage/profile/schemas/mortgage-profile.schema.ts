@@ -12,6 +12,7 @@ import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 export const mortgageProfiles = mysqlTable('MortgageProfile', {
   id: char('id', { length: 36 }).primaryKey(),
   userId: char('userId', { length: 36 }).notNull(),
+    // в mysql нет типа uuid?
   propertyPrice: decimal('propertyPrice', {
     precision: 15,
     scale: 2

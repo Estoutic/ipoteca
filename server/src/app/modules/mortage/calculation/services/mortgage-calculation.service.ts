@@ -1,13 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import {
-  MortgagePayment,
-  MortgagePaymentSchedule
-} from '../interfaces/mortgage-payment.interface';
-import { MortgageCalculationResponse } from '../interfaces/mortgage-calculation-response.interface';
-import { CreateMortgageProfileDto } from '../dto/create-mortgage-profile.dto';
+import { Injectable, Inject } from '@nestjs/common';
+import { Database } from 'src/database/schema';
+import { mortgageCalculations } from '../schemas/mortgage-calculation.schema';
+import { MortgageCalculationResponse } from '../interface/mortgage-calculation-response.interface';
+import { CreateMortgageProfileDto } from '../../profile/dto/create-mortgage-profile.dto';
+import { MortgagePayment, MortgagePaymentSchedule } from '../interface/mortgage-payment.interface';
 
 @Injectable()
-export class MortgageCalculatorService {
+export class MortgageCalculationService {
+  constructor(@Inject('DATABASE') private readonly db: Database) {}
+
+  async create(
+    calculationResult: MortgageCalculationResponse,
+    userId: string,
+    mortgageProfileId: string
+  ): Promise<string> {
+    const calculationId = crypto.randomUUID();
+    const calculationData = {
+      id: calculationId,
+      userId,
+      mortgageProfileId,
+      monthlyPayment: calculationResult.monthlyPayment.toString(),
+      totalPayment: calculationResult.totalPayment.toString(),
+      totalOverpaymentAmount:
+        calculationResult.totalOverpaymentAmount.toString(),
+      possibleTaxDeduction: calculationResult.possibleTaxDeduction.toString(),
+      savingsDueMotherCapital:
+        calculationResult.savingsDueMotherCapital.toString(),
+      recommendedIncome: calculationResult.recommendedIncome.toString(),
+      paymentSchedule: JSON.stringify(calculationResult.mortgagePaymentSchedule)
+    };
+
+    await this.db.insert(mortgageCalculations).values(calculationData);
+
+    return calculationId;
+  }
+
   calculate(dto: CreateMortgageProfileDto): MortgageCalculationResponse {
     const matCapital =
       dto.matCapitalIncluded && dto.matCapitalAmount ? dto.matCapitalAmount : 0;

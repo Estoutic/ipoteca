@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Request } from '@nestjs/common';
 import { MortgageService } from './services/mortgage.service';
-import { CreateMortgageProfileDto } from './dto/create-mortgage-profile.dto';
-import { MortgageCalculationResponse } from './interfaces/mortgage-calculation-response.interface';
+import { MortgageCalculationResponse } from './calculation/interface/mortgage-calculation-response.interface';
+import { CreateMortgageProfileDto } from './profile/dto/create-mortgage-profile.dto';
 
 @Controller('mortgage')
 export class MortgageController {
