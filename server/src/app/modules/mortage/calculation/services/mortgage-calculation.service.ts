@@ -146,6 +146,7 @@ export class MortgageCalculationService {
       const monthName = this.getMonthName(startDate.getMonth());
 
       startDate.setMonth(startDate.getMonth() + 1);
+      // Либо с этого месяца либо со следующего сейчас реализовано с действующего
 
       if (!schedule[year]) {
         schedule[year] = {};

@@ -1,0 +1,3 @@
+11/06/2025, 8:00:33 PM # ExceptionsHandler: Error: Failed query: insert into `MortgageProfile` (`id`, `userId`, `propertyPrice`, `propertyType`, `downPaymentAmount`, `matCapitalAmount`, `matCapitalIncluded`, `loanTermYears`, `interestRate`, `createdAt`, `updatedAt`) values (?, default, ?, ?, ?, ?, ?, ?, ?, default, default)
+params: 4bda8549-9866-4edd-9c80-78139fcf7a52,5000000,APARTMENT,1000000,,false,15,8.5
+
